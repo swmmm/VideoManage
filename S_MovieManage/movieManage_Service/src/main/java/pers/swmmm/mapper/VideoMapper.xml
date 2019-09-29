@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pers.swmmm.mapper.VideoMapper">
+  <resultMap id="BaseResultMap" type="pers.swmmm.po.Video">
+    <id column="video_id" jdbcType="INTEGER" property="videoId" />
+    <result column="video_name" jdbcType="VARCHAR" property="videoName" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="language" jdbcType="VARCHAR" property="language" />
+    <result column="showdate" jdbcType="DATE" property="showdate" />
+    <result column="TVstation" jdbcType="VARCHAR" property="tvstation" />
+    <result column="category" jdbcType="VARCHAR" property="category" />
+    <result column="alias" jdbcType="VARCHAR" property="alias" />
+    <result column="screenwriter" jdbcType="VARCHAR" property="screenwriter" />
+    <result column="director" jdbcType="VARCHAR" property="director" />
+    <result column="leadactor" jdbcType="VARCHAR" property="leadactor" />
+    <result column="episodes" jdbcType="SMALLINT" property="episodes" />
+    <result column="statu" jdbcType="VARCHAR" property="statu" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    video_id, video_name, nation, language, showdate, TVstation, category, alias, screenwriter, 
+    director, leadactor, episodes, statu
+  </sql>
+  <select id="selectByExample" parameterType="pers.swmmm.po.VideoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from video
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from video
+    where video_id = #{videoId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from video
+    where video_id = #{videoId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="pers.swmmm.po.VideoExample">
+    delete from video
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pers.swmmm.po.Video">
+    insert into video (video_id, video_name, nation, 
+      language, showdate, TVstation, 
+      category, alias, screenwriter, 
+      director, leadactor, episodes, 
+      statu)
+    values (#{videoId,jdbcType=INTEGER}, #{videoName,jdbcType=VARCHAR}, #{nation,jdbcType=VARCHAR}, 
+      #{language,jdbcType=VARCHAR}, #{showdate,jdbcType=DATE}, #{tvstation,jdbcType=VARCHAR}, 
+      #{category,jdbcType=VARCHAR}, #{alias,jdbcType=VARCHAR}, #{screenwriter,jdbcType=VARCHAR}, 
+      #{director,jdbcType=VARCHAR}, #{leadactor,jdbcType=VARCHAR}, #{episodes,jdbcType=SMALLINT}, 
+      #{statu,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="pers.swmmm.po.Video">
+    insert into video
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="videoId != null">
+        video_id,
+      </if>
+      <if test="videoName != null">
+        video_name,
+      </if>
+      <if test="nation != null">
+        nation,
+      </if>
+      <if test="language != null">
+        language,
+      </if>
+      <if test="showdate != null">
+        showdate,
+      </if>
+      <if test="tvstation != null">
+        TVstation,
+      </if>
+      <if test="category != null">
+        category,
+      </if>
+      <if test="alias != null">
+        alias,
+      </if>
+      <if test="screenwriter != null">
+        screenwriter,
+      </if>
+      <if test="director != null">
+        director,
+      </if>
+      <if test="leadactor != null">
+        leadactor,
+      </if>
+      <if test="episodes != null">
+        episodes,
+      </if>
+      <if test="statu != null">
+        statu,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="videoId != null">
+        #{videoId,jdbcType=INTEGER},
+      </if>
+      <if test="videoName != null">
+        #{videoName,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null">
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="language != null">
+        #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="showdate != null">
+        #{showdate,jdbcType=DATE},
+      </if>
+      <if test="tvstation != null">
+        #{tvstation,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null">
+        #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="alias != null">
+        #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="screenwriter != null">
+        #{screenwriter,jdbcType=VARCHAR},
+      </if>
+      <if test="director != null">
+        #{director,jdbcType=VARCHAR},
+      </if>
+      <if test="leadactor != null">
+        #{leadactor,jdbcType=VARCHAR},
+      </if>
+      <if test="episodes != null">
+        #{episodes,jdbcType=SMALLINT},
+      </if>
+      <if test="statu != null">
+        #{statu,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pers.swmmm.po.VideoExample" resultType="java.lang.Long">
+    select count(*) from video
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update video
+    <set>
+      <if test="record.videoId != null">
+        video_id = #{record.videoId,jdbcType=INTEGER},
+      </if>
+      <if test="record.videoName != null">
+        video_name = #{record.videoName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nation != null">
+        nation = #{record.nation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.language != null">
+        language = #{record.language,jdbcType=VARCHAR},
+      </if>
+      <if test="record.showdate != null">
+        showdate = #{record.showdate,jdbcType=DATE},
+      </if>
+      <if test="record.tvstation != null">
+        TVstation = #{record.tvstation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.category != null">
+        category = #{record.category,jdbcType=VARCHAR},
+      </if>
+      <if test="record.alias != null">
+        alias = #{record.alias,jdbcType=VARCHAR},
+      </if>
+      <if test="record.screenwriter != null">
+        screenwriter = #{record.screenwriter,jdbcType=VARCHAR},
+      </if>
+      <if test="record.director != null">
+        director = #{record.director,jdbcType=VARCHAR},
+      </if>
+      <if test="record.leadactor != null">
+        leadactor = #{record.leadactor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.episodes != null">
+        episodes = #{record.episodes,jdbcType=SMALLINT},
+      </if>
+      <if test="record.statu != null">
+        statu = #{record.statu,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update video
+    set video_id = #{record.videoId,jdbcType=INTEGER},
+      video_name = #{record.videoName,jdbcType=VARCHAR},
+      nation = #{record.nation,jdbcType=VARCHAR},
+      language = #{record.language,jdbcType=VARCHAR},
+      showdate = #{record.showdate,jdbcType=DATE},
+      TVstation = #{record.tvstation,jdbcType=VARCHAR},
+      category = #{record.category,jdbcType=VARCHAR},
+      alias = #{record.alias,jdbcType=VARCHAR},
+      screenwriter = #{record.screenwriter,jdbcType=VARCHAR},
+      director = #{record.director,jdbcType=VARCHAR},
+      leadactor = #{record.leadactor,jdbcType=VARCHAR},
+      episodes = #{record.episodes,jdbcType=SMALLINT},
+      statu = #{record.statu,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pers.swmmm.po.Video">
+    update video
+    <set>
+      <if test="videoName != null">
+        video_name = #{videoName,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null">
+        nation = #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="language != null">
+        language = #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="showdate != null">
+        showdate = #{showdate,jdbcType=DATE},
+      </if>
+      <if test="tvstation != null">
+        TVstation = #{tvstation,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null">
+        category = #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="alias != null">
+        alias = #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="screenwriter != null">
+        screenwriter = #{screenwriter,jdbcType=VARCHAR},
+      </if>
+      <if test="director != null">
+        director = #{director,jdbcType=VARCHAR},
+      </if>
+      <if test="leadactor != null">
+        leadactor = #{leadactor,jdbcType=VARCHAR},
+      </if>
+      <if test="episodes != null">
+        episodes = #{episodes,jdbcType=SMALLINT},
+      </if>
+      <if test="statu != null">
+        statu = #{statu,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where video_id = #{videoId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pers.swmmm.po.Video">
+    update video
+    set video_name = #{videoName,jdbcType=VARCHAR},
+      nation = #{nation,jdbcType=VARCHAR},
+      language = #{language,jdbcType=VARCHAR},
+      showdate = #{showdate,jdbcType=DATE},
+      TVstation = #{tvstation,jdbcType=VARCHAR},
+      category = #{category,jdbcType=VARCHAR},
+      alias = #{alias,jdbcType=VARCHAR},
+      screenwriter = #{screenwriter,jdbcType=VARCHAR},
+      director = #{director,jdbcType=VARCHAR},
+      leadactor = #{leadactor,jdbcType=VARCHAR},
+      episodes = #{episodes,jdbcType=SMALLINT},
+      statu = #{statu,jdbcType=VARCHAR}
+    where video_id = #{videoId,jdbcType=INTEGER}
+  </update>
+
+  <resultMap id="ResultMap" type="pers.swmmm.po.Video">
+    <id column="video_id" jdbcType="INTEGER" property="videoId" />
+    <result column="video_name" jdbcType="VARCHAR" property="videoName" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="language" jdbcType="VARCHAR" property="language" />
+    <result column="showdate" jdbcType="DATE" property="showdate" />
+    <result column="TVstation" jdbcType="VARCHAR" property="tvstation" />
+    <result column="category" jdbcType="VARCHAR" property="category" />
+    <result column="alias" jdbcType="VARCHAR" property="alias" />
+    <result column="screenwriter" jdbcType="VARCHAR" property="screenwriter" />
+    <result column="director" jdbcType="VARCHAR" property="director" />
+    <result column="leadactor" jdbcType="VARCHAR" property="leadactor" />
+    <result column="episodes" jdbcType="SMALLINT" property="episodes" />
+    <result column="statu" jdbcType="VARCHAR" property="statu" />
+    <collection property="tags" ofType="pers.swmmm.po.Tag">
+      <result column="tag_name" jdbcType="VARCHAR" property="tagName"/>
+      <result column="tag_id" jdbcType="INTEGER" property="tagId"/>
+    </collection>
+  </resultMap>
+
+  <select id="getVideos" resultMap="ResultMap">
+    select v.video_id, video_name, nation, language, showdate, TVstation, category, alias, screenwriter,
+    director, leadactor, episodes, statu,t.tag_id,tag_name  from video v
+    LEFT JOIN video_tag vt ON v.video_id = vt.video_id
+    LEFT JOIN tag t ON t.tag_id = vt.tag_id
+  </select>
+  <select id="getVideoById" resultMap="ResultMap">
+    select v.video_id, video_name, nation, language, showdate, TVstation, category, alias, screenwriter,
+    director, leadactor, episodes, statu,t.tag_id,tag_name  from video v
+    LEFT JOIN video_tag vt ON v.video_id = vt.video_id
+    LEFT JOIN tag t ON t.tag_id = vt.tag_id
+    where v.video_id = #{videoId}
+  </select>
+
+  <insert id="insertResources" parameterType="java.util.List">
+    insert into video_resources (url)values
+    <foreach collection="list" item="url" separator=",">
+      (
+      #{url}
+      )
+    </foreach>
+  </insert>
+</mapper>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pers.swmmm.mapper.AdvertisementMapper">
+    <resultMap id="BaseResultMap" type="pers.swmmm.po.Advertisement">
+        <id column="ad_id" property="adId" jdbcType="INTEGER"/>
+        <result column="ad_name" property="adName" jdbcType="VARCHAR"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="image_url" property="imageUrl" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="getAdvertisements" resultMap="BaseResultMap">
+        select * from advertisement
+    </select>
+</mapper>

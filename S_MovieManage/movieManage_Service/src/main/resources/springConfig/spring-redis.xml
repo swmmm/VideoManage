@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+    <cache:annotation-driven cache-manager="redisCacheManager"/>
+    <!--连接工厂配置-->
+    <bean class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" id="jedisConnectionFactory">
+        <constructor-arg name="standaloneConfig" ref="standaloneConfiguration"/>
+    </bean>
+    <!--单机版连接-->
+    <bean class="org.springframework.data.redis.connection.RedisStandaloneConfiguration" id="standaloneConfiguration">
+        <!--<property name="hostName" value="192.168.187.100"/>-->
+        <property name="hostName" value="127.0.0.1"/>
+        <property name="port" value="6379"/>
+        <property name="database" value="2"/>
+     </bean>
+    <!--设置redisCacheManager-->
+    <bean class="org.springframework.data.redis.cache.RedisCacheManager" id="redisCacheManager">
+        <constructor-arg name="cacheWriter" ref="cacheWriter"></constructor-arg>
+        <constructor-arg name="defaultCacheConfiguration" ref="CacheConfigWithSerializeValues"></constructor-arg>
+        <constructor-arg name="initialCacheConfigurations">
+            <map key-type="java.lang.String" value-type="org.springframework.data.redis.cache.RedisCacheConfiguration">
+                <entry key="advertisement" value-ref="CacheConfigWithSerializeValues"/>
+            </map>
+        </constructor-arg>
+    </bean>
+    <!--RedisCacheManage构造器参数cacheWriter、cacheConfiguration-->
+    <bean class="org.springframework.data.redis.cache.DefaultRedisCacheWriter" id="cacheWriter">
+        <constructor-arg name="connectionFactory" ref="jedisConnectionFactory"></constructor-arg>
+    </bean>
+    <bean id="CacheConfigWithSerializeValues" class="org.springframework.data.redis.cache.RedisCacheConfiguration"
+          factory-bean="cacheConfiguration" factory-method="serializeValuesWith" c:valueSerializationPair-ref="serializer"
+          >
+    </bean>
+    <bean id="cacheConfiguration" class="org.springframework.data.redis.cache.RedisCacheConfiguration"
+          factory-method="defaultCacheConfig">
+    </bean>
+
+    <!--将存入redis中的value保存为json格式-->
+    <bean id="serializer" class="org.springframework.data.redis.serializer.RedisSerializerToSerializationPairAdapter" >
+        <constructor-arg name="serializer" ref="valueSerializer"></constructor-arg>
+    </bean>
+    <bean id="valueSerializer" class="org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer" >
+        <constructor-arg name="type" value="java.lang.Object"></constructor-arg>
+    </bean>
+
+    <!--配置redisTemplate-->
+    <bean class="org.springframework.data.redis.core.RedisTemplate" id="redisTemplate">
+       <property name="connectionFactory" ref="jedisConnectionFactory"/>
+        <property name="keySerializer" ref="valueSerializer"/>
+        <property name="valueSerializer" ref="valueSerializer"/>
+        <property name="hashKeySerializer" ref="valueSerializer"/>
+        <property name="hashValueSerializer" ref="valueSerializer"/>
+    </bean>
+    <bean class="org.springframework.data.redis.core.StringRedisTemplate" id="stringRedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory"/>
+        <property name="valueSerializer" ref="valueSerializer"/>
+    </bean>
+</beans>
