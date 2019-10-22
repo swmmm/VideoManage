@@ -1,0 +1,11 @@
+pers\swmmm\service\impl\AdvertisementServiceImpl.class
+pers\swmmm\service\impl\LoginServiceImpl.class
+pers\swmmm\mapper\AdminMapper.class
+pers\swmmm\service\impl\DubboDemoImpl.class
+pers\swmmm\mapper\TagMapper.class
+pers\swmmm\mapper\GoodsMapper.class
+pers\swmmm\mapper\AdvertisementMapper.class
+pers\swmmm\mapper\VideoMapper.class
+pers\swmmm\mapper\VideoTagMapper.class
+pers\swmmm\service\impl\VideoServiceImpl.class
+pers\swmmm\service\Main.class
